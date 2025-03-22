@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/v1/54dd407be4b0d35f6cfef75e/1453302185095-1ES7EYXAWVGTCZVQYPKG/KM_controllers_PS3.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial FIFA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-content">
+            <h1 id="titulo-historial"><span class="emoji">🎮</span> Historial de Partidos FIFA</h1>
+            <!-- Solo en historial.html, este botón será visible -->
+            <button id="btn-header-agregar" class="btn-agregar-header" style="display: none;">
+                ➕ Agregar Partido
+            </button>
+        </div>
+    </header>
+    
+
+    <main>
+        <section id="seleccionar-historial">
+            <h2>Seleccionar un historial</h2>
+            <div class="contenedor-ingreso">
+                <div class="contenedor-input-id">
+                    <input type="text" id="historial-id" placeholder="Ingresar ID del historial">
+                </div>
+                <button id="btn-ingresar">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar
+                </button>
+                
+                <p class="separador">o</p>
+                
+                <button id="btn-crear">
+                    <i class="fas fa-plus-circle"></i> Crear un nuevo historial
+                </button>                
+            </div>            
+        </section>
+    
+        <section id="registro-historial" style="display: none;">
+            <h2>Crear un nuevo historial</h2>
+            <label for="jugador1">Jugador 1:</label>
+            <input type="text" id="jugador1" required>
+            
+            <label for="jugador2">Jugador 2:</label>
+            <input type="text" id="jugador2" required>
+    
+            <label for="nuevo-historial-id">ID del historial:</label>
+            <input type="text" id="nuevo-historial-id" required placeholder="Ejemplo: juan-lucas-fifa25">
+            
+            <button id="btn-guardar-historial">Guardar historial</button>
+            <button id="btn-cancelar">Cancelar</button>
+        </section>
+        <footer>
+            <p>Sitio desarrollado por Francisco Scarrone · Proyecto personal · 2025</p>
+        </footer>        
+    </main>
+    
+    <script type="module">
+        // Importar Firebase y Firestore
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8cVuqT9MB8YbAt9DTDH5PWLQ5aRZ_BQ8",
+            authDomain: "historial-fifa.firebaseapp.com",
+            projectId: "historial-fifa",
+            storageBucket: "historial-fifa.appspot.com", // 🔹 Corregido
+            messagingSenderId: "1025482983434",
+            appId: "1:1025482983434:web:7c5c7f882508a6bc4c37f3"
+        };
+    
+        // Inicializar Firebase y Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+    
+        // Hacer que Firestore esté disponible en `script.js`
+        window.db = db;
+    </script>
+    
+    <script src="script.js" type="module"></script>
+</body>
+</html>

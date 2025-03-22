@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/v1/54dd407be4b0d35f6cfef75e/1453302185095-1ES7EYXAWVGTCZVQYPKG/KM_controllers_PS3.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Partidos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-content">
+            <h1 id="titulo-historial"><span class="emoji">🎮</span> Historial de Partidos FIFA</h1>
+            <!-- Solo en historial.html, este botón será visible -->
+            <button id="btn-header-agregar" class="btn-agregar-header" style="display: none;">
+                ➕ Agregar Partido
+            </button>
+        </div>
+    </header>
+    
+
+    <main>
+
+        <section id="grafico-victorias" class="oculto-grafico">
+            <canvas id="torta-victorias"></canvas>
+        </section>      
+        <section id="goleada-maxima" class="oculto-goleada">
+            <h3>Máxima Goleada</h3>
+            <div id="contenido-goleada"></div>
+        </section>          
+        <section id="resumen-jugadores" class="resumen-oculto">
+            <div class="jugador" id="jugador1-resumen">
+                <h2 id="nombre-j1">Jugador 1</h2>
+                <p><span id="victorias-j1">0</span> victorias</p>
+                <p><span id="goles-j1">0</span> ⚽G</p>
+            </div>
+            <div class="jugador" id="jugador2-resumen">
+                <h2 id="nombre-j2">Jugador 2</h2>
+                <p><span id="victorias-j2">0</span> victorias</p>
+                <p><span id="goles-j2">0</span> ⚽G</p>
+            </div>
+        </section>
+
+        <section id="historial-partidos">
+            <h2>Partidos</h2>
+            <ul id="lista-partidos" class="partidos-lista"></ul>
+        </section>
+
+        <button id="btn-agregar-partido">Agregar Partido</button>
+        <section id="registro-partido" style="display: none;">
+            <h2>Registrar un nuevo partido</h2>
+            <form id="form-partido">
+                <label for="ganador">Ganador*:</label>
+                <select id="ganador" required>
+                    <option value="">Seleccionar...</option>
+                    <!-- Aquí se cargarán los jugadores automáticamente -->
+                </select>                
+
+                <label>Resultado*:</label>
+                <div id="resultado-container" class="fila">
+                    <div class="columna">
+                        <label for="resultado-jugador1"><span id="nombre-jugador1"></span>:</label>
+                        <input type="number" id="resultado-jugador1" min="0" max="15" required>
+                    </div>
+                    <div class="columna">
+                        <label for="resultado-jugador2"><span id="nombre-jugador2"></span>:</label>
+                        <input type="number" id="resultado-jugador2" min="0" max="15" required>
+                    </div>
+                </div>
+                
+        
+                <label>Equipos (opcional):</label>
+                <div id="cuadros-container" class="fila">
+                    <div class="columna">
+                        <label for="cuadro-jugador1"><span id="cuadro-nombre-jugador1"></span>:</label>
+                        <input type="text" id="cuadro-jugador1" >
+                    </div>
+                    <div class="columna">
+                        <label for="cuadro-jugador2"><span id="cuadro-nombre-jugador2"></span>:</label>
+                        <input type="text" id="cuadro-jugador2" >
+                    </div>
+                </div>
+                
+        
+                <label for="comentarios">Comentarios (opcional):</label>
+                <textarea id="comentarios"></textarea>
+        
+                <button type="submit">Guardar Partido</button>
+                <button type="button" id="btn-cancelar-partido">Cancelar</button>
+            </form>
+        </section>
+        <button id="volver">Volver al inicio</button>
+        <footer>
+            <p>Sitio desarrollado por Francisco Scarrone · Proyecto personal · 2025</p>
+        </footer>
+
+    </main>
+
+    <script type="module" src="historial.js"></script>
+
+</body>
+</html>

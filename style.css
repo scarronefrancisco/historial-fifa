@@ -1,0 +1,422 @@
+/* ------------------ ESTILOS GENERALES ------------------ */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f8fb;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #00695c;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #004d40;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #b2dfdb;
+    padding-bottom: 5px;
+}
+.contenedor-ingreso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+button#btn-ingresar i,
+button#btn-crear i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+button:hover i {
+    transform: scale(1.2);
+}
+
+button#btn-ingresar,
+button#btn-crear {
+    width: fit-content;
+    padding: 10px 20px;
+}
+
+.separador {
+    margin: 5px 0;
+    font-weight: 600;
+    color: #555;
+}
+
+
+.contenedor-input-id {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+#historial-id {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+#historial-id:focus {
+    border-color: #26a69a;
+    outline: none;
+}
+
+h3 {
+    font-size: 1.3rem;
+    color: #00796b;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#info-historial {
+    background: none;
+    box-shadow: none;
+}
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: 600;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #26a69a;
+    outline: none;
+}
+
+button {
+    background-color: #26a69a;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #00796b;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+ul#lista-partidos {
+    list-style: none;
+    padding: 0;
+}
+
+ul#lista-partidos li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    transition: background-color 0.2s;
+}
+
+ul#lista-partidos li:hover {
+    background-color: #f1f1f1;
+}
+
+/* ------------------ ESTILOS DE COLUMNAS ------------------ */
+.fila {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.columna {
+    flex: 1;
+    text-align: center;
+}
+
+.columna label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.columna input {
+    width: 80%;
+    padding: 5px;
+    text-align: center;
+}
+
+/* ------------------ RESUMEN JUGADORES ------------------ */
+#goleada-maxima {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    border-left: 5px solid #00796b;
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: all 0.5s ease;
+}
+
+#goleada-maxima.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#goleada-maxima h3 {
+    margin-top: 0;
+    color: #004d40;
+}
+
+#grafico-victorias {
+    max-width: 400px;
+    margin: 0 auto 30px;
+    padding: 10px;
+    background-color: transparent;
+    border-radius: 12px;
+    box-shadow: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.6s ease;
+}
+
+
+#grafico-victorias.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+#grafico-victorias canvas {
+    background-color: transparent !important;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+    border-radius: 0%;
+}
+
+#resumen-jugadores {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #e0f7fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.6s ease;
+}
+
+#resumen-jugadores.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.jugador {
+    text-align: center;
+    flex: 1;
+}
+
+.jugador h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #00796b;
+}
+
+.jugador p {
+    font-size: 18px;
+    margin-top: 5px;
+    color: #004d40;
+}
+#resumen-jugadores p {
+    font-size: 17px;
+    margin: 3px 0;
+    color: #005b4f;
+}
+footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 40px;
+    padding: 20px 10px;
+    border-top: 1px solid #ddd;
+    opacity: 0.8;
+}
+
+.partidos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 30px auto;
+    max-width: 700px;
+}
+
+.card-partido {
+    background-color: #f4f4f4;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+.card-partido:hover {
+    transform: translateY(-3px);
+}
+
+.card-partido .fecha {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.card-partido .ganador {
+    font-weight: bold;
+    color: #2e7d32; /* verde ganador */
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.card-partido .resultado {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin: 12px 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-partido .cuadros, .card-partido .comentarios {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.card-partido .cuadros span {
+    display: block;
+}
+
+.card-partido .comentarios {
+    font-style: italic;
+    color: #666;
+}
+
+.card-partido.fire::after {
+    content: '🔥 Máxima Goleada';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff6f00;
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.resultado-compacto {
+    font-size: 1.3rem;
+    text-align: center;
+    font-weight: bold;
+    color: #222;
+    margin: 10px 0;
+}
+
+/* ------------------ ESTILOS DE HEADER ------------------ */
+.main-header {
+    background: linear-gradient(135deg, #004d40, #00796b);
+    color: white;
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.header-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.main-header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.btn-agregar-header {
+    background-color: #ffffff;
+    color: #004d40;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-agregar-header:hover {
+    background-color: #c8f7f0;
+    transform: scale(1.05);
+}
+#titulo-historial {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 8px;
+    text-align: center;
+    color: #e2e2e2;
+    margin: 20px 0;
+    animation: aparecerDesdeArriba 1s ease-out forwards;
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  
+  /* Animación suave al cargar */
+  @keyframes aparecerDesdeArriba {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
