@@ -1,7 +1,7 @@
 // Importar solo lo necesario desde Firebase (sin duplicaciones)
 // Importar Firestore correctamente
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getFirestore, collection, doc, getDoc, getDocs, query, orderBy, addDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, getDocs, query, orderBy, addDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
 // Configuración de Firebase (usá tu propia configuración aquí)
 const firebaseConfig = {
@@ -97,6 +97,54 @@ const cargarHistorial = async () => {
             listaPartidos.innerHTML = "<p>No hay partidos registrados.</p>";
         } else {
             partidosSnap.forEach((docSnap) => {
+                // Agregar listeners a los botones de eliminar
+        document.querySelectorAll(".btn-eliminar-partido").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.target.getAttribute("data-id");
+                const confirmar = confirm("¿Estás seguro de que querés eliminar este partido?");
+                if (!confirmar) return;
+
+                try {
+                    const partidoRef = doc(db, `historiales/${historialId}/partidos/${id}`);
+                    await deleteDoc(partidoRef);
+                    alert("Partido eliminado con éxito.");
+                    cargarHistorial();
+                } catch (error) {
+                    console.error("Error al eliminar el partido:", error);
+                    alert("Hubo un error al eliminar el partido.");
+                }
+            });
+        });
+// Agregar listeners a los botones de editar
+            document.querySelectorAll(".btn-editar-partido").forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    const id = e.target.getAttribute("data-id");
+                    const partidoRef = doc(db, `historiales/${historialId}/partidos/${id}`);
+                    const partidoSnap = await getDoc(partidoRef);
+
+                    if (partidoSnap.exists()) {
+                        const partido = partidoSnap.data();
+
+                        // Cargar datos en el formulario
+                        document.getElementById("ganador").value = partido.ganador;
+                        document.getElementById("resultado-jugador1").value = partido.resultado[document.getElementById("nombre-jugador1").textContent] || "";
+                        document.getElementById("resultado-jugador2").value = partido.resultado[document.getElementById("nombre-jugador2").textContent] || "";
+
+                        document.getElementById("cuadro-jugador1").value = partido.cuadros ? partido.cuadros[document.getElementById("cuadro-nombre-jugador1").textContent] || "" : "";
+                        document.getElementById("cuadro-jugador2").value = partido.cuadros ? partido.cuadros[document.getElementById("cuadro-nombre-jugador2").textContent] || "" : "";
+
+                        document.getElementById("comentarios").value = partido.comentarios || "";
+
+                        // Mostrar formulario
+                        registroPartido.style.display = "block";
+                        btnAgregarPartido.style.display = "none";
+
+                        // Guardar el ID en una variable global
+                        window.partidoEditandoId = id;
+                    }
+                });
+            });
+
                 const partido = docSnap.data();
 
                 // Contar victoria
@@ -122,23 +170,26 @@ const cargarHistorial = async () => {
                 li.className = "card-partido";               
 
                 li.innerHTML = `
-                    <div class="fecha">${new Date(partido.fecha).toLocaleDateString()}</div>
-                    <div class="ganador">🏆 Ganador: ${partido.ganador}</div>
-                    <div class="resultado-compacto">
-                        ${historial.jugador1} ${partido.resultado[historial.jugador1] ?? '-'} 
-                        - 
-                        ${partido.resultado[historial.jugador2] ?? '-'} ${historial.jugador2}
-                    </div>
+                <div class="fecha">${new Date(partido.fecha).toLocaleDateString()}</div>
+                <div class="ganador">🏆 Ganador: ${partido.ganador}</div>
+                <div class="resultado-compacto">
+                    ${historial.jugador1} ${partido.resultado[historial.jugador1] ?? '-'} 
+                    - 
+                    ${partido.resultado[historial.jugador2] ?? '-'} ${historial.jugador2}
+                </div>
+                ${partido.cuadros ? `
+                    <div class="cuadros">
+                        <strong>Cuadros:</strong>
+                        <span>${historial.jugador1} → ${partido.cuadros[historial.jugador1] || '-'}</span>
+                        <span>${historial.jugador2} → ${partido.cuadros[historial.jugador2] || '-'}</span>
+                    </div>` : ""
+                }
+                ${partido.comentarios ? `<div class="comentarios">💬 ${partido.comentarios}</div>` : ""}
+                <button class="btn-editar-partido" data-id="${docSnap.id}"> ✏️ </button>
+                <button class="btn-eliminar-partido" data-id="${docSnap.id}"> 🗑️ </button>
 
-                    ${partido.cuadros ? `
-                        <div class="cuadros">
-                            <strong>Cuadros:</strong>
-                            <span>${historial.jugador1} → ${partido.cuadros[historial.jugador1] || '-'}</span>
-                            <span>${historial.jugador2} → ${partido.cuadros[historial.jugador2] || '-'}</span>
-                        </div>` : ""
-                    }
-                    ${partido.comentarios ? `<div class="comentarios">💬 ${partido.comentarios}</div>` : ""}
-                `;
+            `;
+            
                 listaPartidos.appendChild(li);
 
             });
@@ -325,18 +376,29 @@ formPartido.addEventListener("submit", async (event) => {
     }
 
     try {
-        const partidosRef = collection(db, `historiales/${historialId}/partidos`);
-        await addDoc(partidosRef, partido);
-        alert("Partido registrado con éxito.");
+        if (window.partidoEditandoId) {
+            // Modo edición
+            const partidoRef = doc(db, `historiales/${historialId}/partidos/${window.partidoEditandoId}`);
+            await setDoc(partidoRef, partido);
+            alert("Partido actualizado con éxito.");
+            window.partidoEditandoId = null;
+        } else {
+            // Modo agregar
+            const partidosRef = collection(db, `historiales/${historialId}/partidos`);
+            await addDoc(partidosRef, partido);
+            alert("Partido registrado con éxito.");
+        }
+
         registroPartido.style.display = "none";
         btnAgregarPartido.style.display = "block";
         formPartido.reset();
-        cargarHistorial(); // Recargar los partidos en la lista
+        cargarHistorial();
     } catch (error) {
         console.error("Error al guardar el partido:", error);
         alert("Hubo un error al guardar el partido.");
     }
 });
+
 
 // Cargar el historial al cargar la página
 cargarHistorial();
