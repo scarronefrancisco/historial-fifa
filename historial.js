@@ -138,7 +138,11 @@ const cargarHistorial = async () => {
                         // Mostrar formulario
                         registroPartido.style.display = "block";
                         btnAgregarPartido.style.display = "none";
-
+                        
+                        document.getElementById("registro-partido").scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
                         // Guardar el ID en una variable global
                         window.partidoEditandoId = id;
                     }
@@ -185,7 +189,7 @@ const cargarHistorial = async () => {
                     </div>` : ""
                 }
                 ${partido.comentarios ? `<div class="comentarios">💬 ${partido.comentarios}</div>` : ""}
-                <button class="btn-editar-partido" data-id="${docSnap.id}"> ✏️ </button>
+                <button class="btn-editar-partido" id="editar-part" data-id="${docSnap.id}"> ✏️ </button>
                 <button class="btn-eliminar-partido" data-id="${docSnap.id}"> 🗑️ </button>
 
             `;
