@@ -386,7 +386,7 @@ formPartido.addEventListener("submit", async (event) => {
             // Modo agregar
             const partidosRef = collection(db, `historiales/${historialId}/partidos`);
             await addDoc(partidosRef, partido);
-            alert("Partido registrado con éxito.");
+            alert("Partido registrado con éxito");
         }
 
         registroPartido.style.display = "none";
